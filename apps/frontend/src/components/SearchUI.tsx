@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, SortAsc, SortDesc, History } from "lucide-react";
+import { Search, SortAsc, SortDesc, History, Layers } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -16,14 +16,17 @@ interface SearchResult {
 	filename: string;
 	url: string;
 	lastModified: string;
+	score: number;
 	excerpt?: string;
 }
 
 const SearchUI: React.FC = () => {
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [results, setResults] = useState<SearchResult[]>([]);
-	const [sortBy, setSortBy] = useState<"filename" | "date">("filename");
-	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+	const [sortBy, setSortBy] = useState<"filename" | "date" | "score">(
+		"score"
+	);
+	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 	const [loading, setLoading] = useState<boolean>(false);
 	const [hasSearched, setHasSearched] = useState<boolean>(false);
 
@@ -61,7 +64,7 @@ const SearchUI: React.FC = () => {
 	};
 
 	const handleSort = (value: string) => {
-		setSortBy(value as "filename" | "date");
+		setSortBy(value as "filename" | "date" | "score");
 	};
 
 	const replaceTagWithStrong = (excerpt: string | undefined = "") => {
@@ -76,10 +79,14 @@ const SearchUI: React.FC = () => {
 				return isAscending
 					? a.filename.localeCompare(b.filename)
 					: b.filename.localeCompare(a.filename);
-			} else {
+			} else if (sortBy === "date") {
 				const dateA = new Date(a.lastModified).getTime();
 				const dateB = new Date(b.lastModified).getTime();
 				return isAscending ? dateA - dateB : dateB - dateA;
+			} else if (sortBy === "score") {
+				return isAscending ? a.score - b.score : b.score - a.score;
+			} else {
+				return 0;
 			}
 		});
 		return sortedResults;
@@ -125,12 +132,13 @@ const SearchUI: React.FC = () => {
 						<div className="flex items-center gap-4">
 							<Select
 								onValueChange={handleSort}
-								defaultValue="filename"
+								defaultValue="score"
 							>
 								<SelectTrigger className="w-40">
 									<SelectValue placeholder="Sort by" />
 								</SelectTrigger>
 								<SelectContent>
+									<SelectItem value="score">Score</SelectItem>
 									<SelectItem value="filename">
 										Filename
 									</SelectItem>
@@ -165,13 +173,21 @@ const SearchUI: React.FC = () => {
 											{result.filename}
 										</h3>
 
-										<div className="text-sm text-gray-500 mb-4">
+										<div className="flex justify-between text-sm text-gray-500 mb-4">
 											<span className="flex items-center gap-2">
 												<History className="w-4 h-4" />
 												Last modified:{" "}
 												{new Date(
 													result.lastModified
 												).toLocaleDateString()}
+											</span>
+											<span className="flex items-center gap-2">
+												<Layers className="w-4 h-4" />
+												<span className="font-semibold">
+													Score:
+												</span>
+												{""}
+												{result.score.toFixed(2)}
 											</span>
 										</div>
 
