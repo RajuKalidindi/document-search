@@ -114,7 +114,7 @@ To set up an Elasticsearch container locally, follow these steps:
         elasticsearch:8.16.0
         ```
 
-        **Note**: Verify and use the latest version of Elasticsearch. Check the official documentation if you encounter any issues.
+    **Note**: Verify and use the latest version of Elasticsearch. Check the official documentation if you encounter any issues.
 
 2.  Start the document-search container and verify if it is working by testing:
 
@@ -151,7 +151,7 @@ To set up an Elasticsearch container locally, follow these steps:
     You need to create .env files in both `/apps/frontend` and `/apps/backend` directories with the following configurations:
 
     **Frontend .env:**
-    Create a file named .env in /apps/frontend with the following content:
+    Create a file named .env in `/apps/frontend` with the following content:
 
     Set the VITE_API_KEY variable inside the .env:
 
@@ -160,7 +160,7 @@ To set up an Elasticsearch container locally, follow these steps:
     ```
 
     **Backend .env:**
-    Create a file named .env in /apps/backend with the following content:
+    Create a file named .env in `/apps/backend` with the following content:
 
     ```bash
     ELASTICSEARCH_NODE="http://localhost:9200"
