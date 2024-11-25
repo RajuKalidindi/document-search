@@ -1,9 +1,6 @@
 # Document Search
 
-
 https://github.com/user-attachments/assets/4e615a3b-0122-47f9-8055-a0cf479d25db
-
-
 
 ## Overview
 
@@ -90,6 +87,15 @@ Before you begin, ensure you have the following installed on your machine:
 
 -   **Node.js** with npm (https://nodejs.org/)
 -   **Docker Desktop** (https://www.docker.com/products/docker-desktop/)
+-   **Dropbox Account:** Create a dropbox app (https://www.dropbox.com/developers/apps/create) and enable the following permissions:
+    -   account_info.read
+    -   files.metadata.write
+    -   files.metadata.read
+    -   files.content.write
+    -   files.content.read
+    -   sharing.write
+    -   sharing.read
+-   **Upload txt files:** Upload txt files to the newly created Dropbox app.
 
 **Setting Up Elasticsearch:**
 To set up an Elasticsearch container locally, follow these steps:
